@@ -16,6 +16,24 @@ public class Main {
 
 	public static void main(String[] args) {
 
+		
+		org.apache.log4j.Logger.getLogger("org.apche").setLevel(org.apache.log4j.Level.WARN);
+		
+		//Logger.getLogger("org.apache").setLevel(Level.WARNING);
+		
+		SparkConf conf=new SparkConf().setAppName("Starting Spark").setMaster("local[*]");
+		
+		JavaSparkContext sc=new JavaSparkContext(conf);
+		JavaRDD<String> initialRDD=sc.textFile("src/main/resources/subtitles/input.txt");
+		initialRDD.flatMap(value->Arrays.asList(value.split(" ")).iterator())
+		.collect().forEach(System.out::println);
+		
+		
+		sc.close();
+
+	}
+	public void filterFlatMap() {
+
 		List<String> inputData=new ArrayList<>();
 		
 		inputData.add("WARN: Tuesday 4 September 0405");
